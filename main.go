@@ -10,9 +10,8 @@ import (
 )
 
 func main() {
-	serviceURI := ""
 
-	conn, _ := url.Parse(serviceURI)
+	conn, _ := url.Parse()
 	conn.RawQuery = "sslmode=verify-ca;sslrootcert=ca.pem"
 
 	db, err := sql.Open("postgres", conn.String())
