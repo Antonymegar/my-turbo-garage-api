@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	serviceURI := "postgres://avnadmin:AVNS_7WwKRw8p2iNx6LqPmag@pg-17b5fac5-kithinjimurugu-bf72.e.aivencloud.com:10566/defaultdb?sslmode=require"
+	serviceURI := ""
 
 	conn, _ := url.Parse(serviceURI)
 	conn.RawQuery = "sslmode=verify-ca;sslrootcert=ca.pem"
