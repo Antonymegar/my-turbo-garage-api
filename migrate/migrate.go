@@ -1,8 +1,10 @@
 package main
 
 import (
-  "myturbogarage/models"
-  "myturbogarage/config"
+	"myturbogarage/config"
+	"myturbogarage/models"
+
+	"github.com/getsentry/sentry-go"
 )
 
 func init() {
@@ -11,5 +13,8 @@ func init() {
 }
 
 func main() {
-	config.DB.AutoMigrate(&models.User{})
+	if err := config.DB.AutoMigrate(models.GetSchema()...); err != nil {
+		sentry.CaptureException(err)
+		panic(err)
+	}
 }

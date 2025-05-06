@@ -17,3 +17,38 @@ import (
 	 log.Fatal("Failed to connect to database!")
 	}
    }
+   func Create[T any](data *T) error{
+	return DB.Create(data).Error
+   }
+
+   func Delete[T any](data *T) error{
+	return DB.Delete(data).Error
+   }
+
+   func FindOne[T any] (query *T)(*T , error){
+	var data T 
+	err:=DB.First(&data,query).Error
+	if err !=nil {
+		return nil,err
+	}
+	return &data, nil
+   }
+
+   func FindAll[T any](query *T)([]*T, error){
+	var data []*T
+	err:=DB.Find(&data,query).Error
+	return data, err
+   }
+
+   func FindWithLimit[T any](query *T , limit int)([]*T, error){
+	var data []*T
+	err:= DB.Limit(limit).Find(&data, query).Error
+    return data, err   
+}
+
+   func Count[T any](query *T)(int64, error){
+	var count int64
+	var model T 
+	err:=DB.Model(&model).Where(query).Count(&count).Error
+	return count , err
+   }
