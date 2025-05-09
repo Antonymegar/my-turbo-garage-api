@@ -34,6 +34,10 @@ import (
 	return &data, nil
    }
 
+   func Update[T any](data *T) error {
+	return DB.Save(data).Error
+}
+
    func FindAll[T any](query *T)([]*T, error){
 	var data []*T
 	err:=DB.Find(&data,query).Error
