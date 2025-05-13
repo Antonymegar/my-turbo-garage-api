@@ -18,7 +18,7 @@ type User struct {
 	IsActive         bool      `json:"isActive"`
 	CreatedAt        time.Time `json:"createdAt"`
 	LastLogin        time.Time `json:"lastLogin"`
-	CreatedByID      string    `json:"createdByID"`
+	CreatedByID      *string    `json:"createdByID"`
 	IsAdmin          bool      `json:"isAdmin"`
 	ImageUrl         string    `json:"imageUrl"`
 }

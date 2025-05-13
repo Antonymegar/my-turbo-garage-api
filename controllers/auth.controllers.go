@@ -28,9 +28,11 @@ func Register(ctx *gin.Context) error {
 		return errors.Conflict("user with email already exists")
 	}
 	user := &models.User{
-		ID:       uuid.NewString(),
-		UserName: req.UserName,
-		Email:    req.Email,
+		ID:        uuid.New().String(),
+		UserName:  req.UserName,
+		FirstName: req.FirstName,
+		LastName:  req.LastName,
+		Email:     req.Email,
 	}
 	user.SetPassword(req.Password)
 	if err := config.Create(user); err != nil {
@@ -40,7 +42,7 @@ func Register(ctx *gin.Context) error {
 		ID:    user.ID,
 		Email: user.Email,
 	}, time.Hour*24)
-	fmt.Sprint(token)
+	fmt.Println("token",token)
 	if err != nil {
 		return errors.Forbidden(err.Error())
 	}

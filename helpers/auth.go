@@ -45,7 +45,7 @@ func GenerateAuthTokens(AuthClaims *AuthClaims, tokenExpiry ...time.Duration) (*
 
 	AuthClaims.StandardClaims = jwt.StandardClaims{
 		ExpiresAt: accessTokenExpiry,
-		Issuer:    "ochom",
+		Issuer:    "murugu",
 	}
 
 	token, err := jwt.NewWithClaims(jwt.SigningMethodHS256, AuthClaims).SignedString([]byte(getAuthSecrete()))
@@ -55,7 +55,7 @@ func GenerateAuthTokens(AuthClaims *AuthClaims, tokenExpiry ...time.Duration) (*
 
 	AuthClaims.StandardClaims = jwt.StandardClaims{
 		ExpiresAt: refreshTokenExpiry,
-		Issuer:    "ochom",
+		Issuer:    "murugu",
 	}
 
 	refreshToken, err := jwt.NewWithClaims(jwt.SigningMethodHS256, AuthClaims).SignedString([]byte(getAuthSecrete()))
