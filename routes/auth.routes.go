@@ -10,5 +10,6 @@ func initAuth(router *gin.Engine) {
 	r := router.Group("/auth")
 	{
 		r.POST("/register", check(controllers.Register))
+		r.POST("/login", check(controllers.Login))
 	}
 }
