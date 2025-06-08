@@ -10,11 +10,11 @@ import (
 
 // SendEmail ...
 func SendEmail(template, subject, to string, data map[string]interface{}) error {
-	fromEmail := helpers.GetEnv("HOST_EMAIL", "")
-	host := helpers.GetEnv("HOST", "")
-	port := helpers.GetEnv("PORT", "")
-	user := helpers.GetEnv("USER_KEY", "")
-	pass := helpers.GetEnv("PASS_KEY", "")
+	fromEmail := helpers.GetEnv("DEFAULT_FROM_EMAIL", "")
+	host := helpers.GetEnv("EMAIL_HOST", "")
+	port := helpers.GetEnvInt("EMAIL_PORT", 587)
+	user := helpers.GetEnv("EMAIL_HOST_USER", "")
+	pass := helpers.GetEnv("EMAIL_HOST_PASSWORD", "")
 
 	data["title"] = subject
 	htmlBody, err := mail.ParseTemplate(template, data)
