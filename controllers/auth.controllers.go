@@ -47,7 +47,7 @@ func Register(ctx *gin.Context) error {
 	if err != nil {
 		return errors.Forbidden(err.Error())
 	}
-	ctx.JSON(200, gin.H{"message": "user created successfully"})
+	ctx.JSON(200, gin.H{"message": "user created successfully "})
 	return nil
 }
 
