@@ -9,11 +9,11 @@ import (
 
 // SendEmail ...
 func SendEmail(template, subject, to string, data map[string]interface{}) error {
-	fromEmail := "appinapp.co.ke@gmail.com"
+	fromEmail := ""
 	host := "smtp.sendgrid.net"                                                     // SendGrid SMTP server hostname
 	port := 587                                                                     // SendGrid SMTP server port
-	user := "apikey"                                                                // Your SendGrid SMTP username
-	pass := "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" // Your SendGrid SMTP password
+	user := ""                                                                // Your SendGrid SMTP username
+	pass := "" // Your SendGrid SMTP password
 
 	data["title"] = subject
 	htmlBody, err := mail.ParseTemplate(template, data)
