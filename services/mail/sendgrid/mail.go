@@ -10,8 +10,8 @@ import (
 // SendEmail ...
 func SendEmail(template, subject, to string, data map[string]interface{}) error {
 	fromEmail := ""
-	host := "smtp.sendgrid.net"                                                     // SendGrid SMTP server hostname
-	port := 587                                                                     // SendGrid SMTP server port
+	host := ""                                                     // SendGrid SMTP server hostname
+	port := ""                                                                     // SendGrid SMTP server port
 	user := ""                                                                // Your SendGrid SMTP username
 	pass := "" // Your SendGrid SMTP password
 
