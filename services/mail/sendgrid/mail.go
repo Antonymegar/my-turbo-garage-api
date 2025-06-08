@@ -11,7 +11,7 @@ import (
 // SendEmail ...
 func SendEmail(template, subject, to string, data map[string]interface{}) error {
 	fromEmail := helpers.GetEnv("HOST_EMAIL", "")
-	host := helpers.GetEnv("HIST", "")
+	host := helpers.GetEnv("HOST", "")
 	port := helpers.GetEnv("PORT", "")
 	user := helpers.GetEnv("USER_KEY", "")
 	pass := helpers.GetEnv("PASS_KEY", "")
