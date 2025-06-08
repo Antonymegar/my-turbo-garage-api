@@ -3,17 +3,18 @@ package sendgrid
 import (
 	"bytes"
 	"fmt"
-	"net/smtp"
+	"myturbogarage/helpers"
 	"myturbogarage/services/mail"
+	"net/smtp"
 )
 
 // SendEmail ...
 func SendEmail(template, subject, to string, data map[string]interface{}) error {
-	fromEmail := ""
-	host := ""                                                     // SendGrid SMTP server hostname
-	port := ""                                                                     // SendGrid SMTP server port
-	user := ""                                                                // Your SendGrid SMTP username
-	pass := "" // Your SendGrid SMTP password
+	fromEmail := helpers.GetEnv("HOST_EMAIL", "")
+	host := helpers.GetEnv("HIST", "")
+	port := helpers.GetEnv("PORT", "")
+	user := helpers.GetEnv("USER_KEY", "")
+	pass := helpers.GetEnv("PASS_KEY", "")
 
 	data["title"] = subject
 	htmlBody, err := mail.ParseTemplate(template, data)
