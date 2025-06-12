@@ -1,5 +1,13 @@
 package inputs
 
+// CreateRoleRequest ...
+type CreateRoleRequest struct {
+	GarageID    string `json:"vendorID"`
+	App         string `json:"app" binding:"required"`
+	Name        string `json:"name" binding:"required"`
+	Description string `json:"description" binding:"required"`
+	Permissions string `json:"permissions" binding:"required"`
+}
 
 // CreateStaffRequest ...
 type CreateStaffRequest struct {

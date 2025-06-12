@@ -17,6 +17,9 @@ import (
 	 log.Fatal("Failed to connect to database!")
 	}
    }
+   func Conn() *gorm.DB{
+	return DB
+   }
    func Create[T any](data *T) error{
 	return DB.Create(data).Error
    }
