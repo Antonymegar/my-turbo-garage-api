@@ -9,6 +9,7 @@ import (
 	"myturbogarage/models"
 	"myturbogarage/outputs"
 	"myturbogarage/services/mail/sendgrid"
+	"myturbogarage/services/sms"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -229,5 +230,70 @@ func ResendVerificationEmail(ctx *gin.Context) error {
 	}()
 
 	ctx.JSON(200, gin.H{"message": "verification email sent successfully"})
+	return nil
+}
+
+// RequestOTP ...
+func RequestOTP(ctx *gin.Context) error {
+	var req inputs.ResendOTPRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		return errors.BadRequest(err.Error())
+	}
+
+	user, err := config.FindOne(&models.User{Email: req.Email})
+	if err != nil {
+		return errors.NotFound("user account not found")
+	}
+
+	// check if current otp was generated less than 5 minutes ago
+	if time.Since(user.OTPGenerated).Minutes() < 5 {
+		ctx.JSON(200, gin.H{"message": "otp sent successfully"})
+		return nil
+	}
+
+	otp := helpers.GenerateOTP(6)
+	user.SetOTP(otp)
+	if err := config.Update(&user); err != nil {
+		return errors.Conflict("updating user profile failed")
+	}
+
+	fmt.Println("otp", otp)
+
+	go func() {
+		message := fmt.Sprintf("%s is your code. Please do not share it with anyone.", otp)
+		if err := sms.SendSMS(user.Phone, message); err != nil {
+			log.Error("failed to send sms: %s", err.Error())
+		}
+	}()
+
+	ctx.JSON(200, gin.H{"message": "otp sent successfully"})
+	return nil
+}
+
+// VerifyOTP ...
+func VerifyOTP(ctx *gin.Context) error {
+	var req inputs.VerifyOTPRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		return errors.BadRequest(err.Error())
+	}
+
+	user, err := config.FindOne(&models.User{Email: req.Email})
+	if err != nil {
+		return errors.NotFound("user account not found")
+	}
+
+	if !user.IsOTPValid(req.OTP) {
+		return errors.BadRequest("invalid OTP provided")
+	}
+
+	user.IsMobileVerified = true
+	user.IsActive = true
+	if err := config.Update(&user); err != nil {
+		return errors.Conflict("updating user profile failed")
+	}
+
+	res := outputs.NewLoginResponse(user)
+
+	ctx.JSON(200, res)
 	return nil
 }
